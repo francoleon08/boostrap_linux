@@ -7,20 +7,17 @@
   when: vscode_install | bool
 
 - name: Find existing VS Code apt source files
-  ansible.builtin.find:
-    paths: /etc/apt/sources.list.d
-    patterns:
-      - "*.list"
-      - "*.sources"
-    contains: "packages.microsoft.com/repos/code"
+  ansible.builtin.shell: |
+    grep -Rsl 'packages.microsoft.com' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || true
   register: vscode_source_files
+  changed_when: false
   when: vscode_install | bool
 
 - name: Remove existing VS Code apt source files
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "{{ item }}"
     state: absent
-  loop: "{{ vscode_source_files.files | default([]) }}"
+  loop: "{{ vscode_source_files.stdout_lines | default([]) }}"
   when: vscode_install | bool
 
 - name: Download Microsoft GPG key on Debian family
@@ -37,10 +34,10 @@
   when: vscode_install | bool
 
 - name: Add VS Code repository on Debian family
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main"
-    filename: vscode
-    state: present
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/vscode.list
+    content: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main\n"
+    mode: "0644"
   when: vscode_install | bool
 
 - name: Install packages on Debian family
