@@ -6,6 +6,21 @@
     mode: "0755"
   when: vscode_install | bool
 
+- name: Find existing VS Code apt source files
+  ansible.builtin.find:
+    paths: /etc/apt/sources.list.d
+    patterns: "*.list"
+    contains: "packages.microsoft.com/repos/code"
+  register: vscode_source_files
+  when: vscode_install | bool
+
+- name: Remove existing VS Code apt source files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ vscode_source_files.files | default([]) }}"
+  when: vscode_install | bool
+
 - name: Download Microsoft GPG key on Debian family
   ansible.builtin.get_url:
     url: https://packages.microsoft.com/keys/microsoft.asc
