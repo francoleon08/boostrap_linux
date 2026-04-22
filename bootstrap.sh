@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ ${EUID} -ne 0 ]]; then
+  if ! sudo -n true 2>/dev/null; then
+    echo "Solicitando credenciales sudo una sola vez..."
+    sudo -v
+  fi
+fi
+
 if ! command -v ansible-playbook >/dev/null 2>&1; then
   echo "Ansible no encontrado. Instalando..."
 
@@ -18,4 +25,4 @@ if ! command -v ansible-playbook >/dev/null 2>&1; then
 fi
 
 ansible-galaxy collection install -r requirements.yml
-ansible-playbook site.yml --ask-become-pass
+ansible-playbook site.yml
