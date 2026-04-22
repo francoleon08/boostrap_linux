@@ -1,0 +1,18 @@
+---
+- name: Ensure AUR helper yay is installed on Arch
+  ansible.builtin.shell: |
+    if ! command -v yay &> /dev/null; then
+      git clone https://aur.archlinux.org/yay.git /tmp/yay
+      cd /tmp/yay
+      makepkg -si --noconfirm
+    fi
+  args:
+    creates: /usr/bin/yay
+
+- name: Install GUI applications from AUR using yay
+  ansible.builtin.command: "yay -S {{ item }} --noconfirm"
+  loop: "{{ gui_apps_common + gui_apps_arch }}"
+  become: false
+  register: yay_result
+  changed_when: "'nothing to do' not in yay_result.stdout | lower"
+  failed_when: false

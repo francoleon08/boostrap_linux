@@ -5,3 +5,5 @@
 
   roles:
     - role: base
+    - role: gui
+      when: gui_install | bool
