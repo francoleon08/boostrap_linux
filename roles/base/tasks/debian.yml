@@ -31,14 +31,14 @@
   when: vscode_install | bool
 
 - name: Convert Microsoft key to gpg keyring
-  ansible.builtin.command: gpg --dearmor -o /etc/apt/keyrings/packages.microsoft.gpg /tmp/microsoft.asc
+  ansible.builtin.command: gpg --dearmor -o /usr/share/keyrings/microsoft.gpg /tmp/microsoft.asc
   args:
-    creates: /etc/apt/keyrings/packages.microsoft.gpg
+    creates: /usr/share/keyrings/microsoft.gpg
   when: vscode_install | bool
 
 - name: Add VS Code repository on Debian family
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main"
+    repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main"
     filename: vscode
     state: present
   when: vscode_install | bool
