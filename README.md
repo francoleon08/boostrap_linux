@@ -12,6 +12,7 @@ Este repositorio te permite aprovisionar tu equipo Linux desde cero usando Ansib
 - Instala Docker y Docker Compose.
 - Instala VS Code con extensiones demo y configuración.
 - Instala aplicaciones GUI: Chrome, Brave, Thunderbird, Postman.
+- Instala y habilita SSH server (sshd).
 
 ## Estructura
 
@@ -56,6 +57,7 @@ Edita `group_vars/all.yml`:
 - `vscode_install`: instala VS Code cuando es `true`.
 - `vscode_extensions`: lista de extensiones a instalar.
 - `vscode_settings`: contenido del archivo `settings.json` de VS Code.
+- `sshd_install`: instala y habilita `sshd` automaticamente.
 - `gui_install`: activa instalacion de aplicaciones GUI (Chrome, Brave, Thunderbird).
 - `postman_install`: instala Postman via snap.
 - `gui_apps_debian`, `gui_apps_redhat`, `gui_apps_arch`: apps por distro (customizable).

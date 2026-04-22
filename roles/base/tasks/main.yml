@@ -19,6 +19,10 @@
   ansible.builtin.include_tasks: vscode.yml
   when: vscode_install | bool
 
+- name: Install and enable sshd
+  ansible.builtin.include_tasks: sshd.yml
+  when: sshd_install | bool
+
 - name: Enable requested services
   ansible.builtin.service:
     name: "{{ item }}"

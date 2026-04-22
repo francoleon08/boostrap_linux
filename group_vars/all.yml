@@ -102,3 +102,14 @@ gui_apps_arch:
 postman_install: true
 postman_version: latest
 postman_install_method: snap
+
+sshd_install: true
+sshd_package_by_os_family:
+  Debian: openssh-server
+  RedHat: openssh-server
+  Archlinux: openssh
+
+sshd_service_by_os_family:
+  Debian: ssh
+  RedHat: sshd
+  Archlinux: sshd

@@ -1,0 +1,13 @@
+---
+- name: Install sshd package
+  ansible.builtin.package:
+    name: "{{ sshd_package_by_os_family[ansible_os_family] }}"
+    state: present
+  when: ansible_os_family in sshd_package_by_os_family
+
+- name: Enable and start sshd service
+  ansible.builtin.service:
+    name: "{{ sshd_service_by_os_family[ansible_os_family] }}"
+    enabled: true
+    state: started
+  when: ansible_os_family in sshd_service_by_os_family
