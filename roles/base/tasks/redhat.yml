@@ -1,4 +1,17 @@
 ---
+- name: Add Docker CE repository on RedHat family
+  ansible.builtin.yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    baseurl: "{{ docker_repo_baseurl_redhat }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey:
+      - https://download.docker.com/linux/{{ 'fedora' if ansible_distribution == 'Fedora' else 'centos' }}/gpg
+  when:
+    - docker_install | bool
+    - docker_use_official_repo_redhat | bool
+
 - name: Install packages on RedHat family
   ansible.builtin.dnf:
     name: "{{ base_packages_common + base_packages_redhat_extra + (docker_packages_redhat if (docker_install | bool) else []) }}"

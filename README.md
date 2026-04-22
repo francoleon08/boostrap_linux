@@ -43,6 +43,11 @@ Edita `group_vars/all.yml`:
 - `services_to_enable`: servicios a habilitar y arrancar.
 - `dotfiles_repo_url`: URL de tu repo de dotfiles.
 - `dotfiles_repo_dest`: destino local del clon.
+- `docker_install`: activa instalacion de Docker y Docker Compose.
+- `docker_manage_daemon_config`: gestiona `/etc/docker/daemon.json` desde Ansible.
+- `docker_daemon_config`: contenido del daemon (ejemplo: `iptables`, `ip-forward`).
+- `docker_users`: usuarios que se agregan al grupo `docker`.
+- `docker_use_official_repo_redhat`: usa repo oficial Docker CE en Fedora/RHEL.
 - `docker_install`: activa instalacion de Docker y Compose.
 - `docker_users`: usuarios que se agregan al grupo `docker`.
 - `docker_compose_version`: version de fallback de Docker Compose.

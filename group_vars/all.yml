@@ -45,11 +45,23 @@ docker_users:
 docker_packages_debian:
   - docker.io
 
+docker_use_official_repo_redhat: true
+docker_repo_baseurl_redhat: "{{ 'https://download.docker.com/linux/fedora/$releasever/$basearch/stable' if ansible_distribution == 'Fedora' else 'https://download.docker.com/linux/centos/$releasever/$basearch/stable' }}"
+
 docker_packages_redhat:
-  - docker
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
 
 docker_packages_arch:
   - docker
 
+docker_manage_daemon_config: true
+docker_daemon_config:
+  iptables: true
+  ip-forward: true
+
 docker_compose_fallback_install: true
-docker_compose_version: v2.27.1
+docker_compose_version: v5.1.3
