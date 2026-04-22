@@ -52,6 +52,7 @@ Edita `group_vars/all.yml`:
 - `docker_manage_daemon_config`: gestiona `/etc/docker/daemon.json` desde Ansible.
 - `docker_daemon_config`: contenido del daemon (ejemplo: `iptables`, `ip-forward`).
 - `docker_users`: usuarios que se agregan al grupo `docker`.
+- `docker_add_users_to_admin_group`: agrega usuarios de Docker al grupo admin (`sudo`/`wheel`).
 - `docker_use_official_repo_redhat`: usa repo oficial Docker CE en Fedora/RHEL.
 - `docker_compose_version`: version de fallback de Docker Compose.
 - `vscode_install`: instala VS Code cuando es `true`.

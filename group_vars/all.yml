@@ -43,6 +43,12 @@ docker_install: true
 docker_users:
   - "{{ bootstrap_user }}"
 
+docker_add_users_to_admin_group: true
+docker_admin_group_by_os_family:
+  Debian: sudo
+  RedHat: wheel
+  Archlinux: wheel
+
 docker_packages_debian:
   - docker.io
 

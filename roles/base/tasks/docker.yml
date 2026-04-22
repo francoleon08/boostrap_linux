@@ -28,6 +28,17 @@
   loop: "{{ docker_users }}"
   when: docker_users | length > 0
 
+- name: Ensure docker users are in admin group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ docker_admin_group_by_os_family[ansible_os_family] }}"
+    append: true
+  loop: "{{ docker_users }}"
+  when:
+    - docker_add_users_to_admin_group | bool
+    - docker_users | length > 0
+    - ansible_os_family in docker_admin_group_by_os_family
+
 - name: Check Docker Compose plugin locations
   ansible.builtin.stat:
     path: "{{ item }}"
