@@ -6,9 +6,13 @@
   changed_when: false
   failed_when: false
   become: false
+  environment:
+    HOME: "{{ bootstrap_home }}"
 
 - name: Apply global git config values
   ansible.builtin.command: "git config --global {{ item.item.key }} {{ item.item.value }}"
   loop: "{{ git_current_values.results }}"
   when: item.stdout != item.item.value
   become: false
+  environment:
+    HOME: "{{ bootstrap_home }}"

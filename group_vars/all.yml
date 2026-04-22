@@ -1,6 +1,7 @@
 ---
 bootstrap_user: "{{ ansible_user_id }}"
 bootstrap_shell: /bin/bash
+bootstrap_home: "{{ lookup('env', 'HOME') }}"
 
 base_packages_common:
   - curl
@@ -28,7 +29,7 @@ base_packages_arch_extra:
 services_to_enable: []
 
 dotfiles_repo_url: ""
-dotfiles_repo_dest: "{{ ansible_env.HOME }}/.dotfiles"
+dotfiles_repo_dest: "{{ bootstrap_home }}/.dotfiles"
 
 git_global_config:
   - key: user.name
