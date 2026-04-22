@@ -1,4 +1,20 @@
 ---
+- name: Add Microsoft GPG key on RedHat family
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://packages.microsoft.com/keys/microsoft.asc
+  when: vscode_install | bool
+
+- name: Add VS Code repository on RedHat family
+  ansible.builtin.yum_repository:
+    name: vscode
+    description: Visual Studio Code
+    baseurl: "{{ 'https://packages.microsoft.com/yumrepos/vscode' }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+  when: vscode_install | bool
+
 - name: Add Docker CE repository on RedHat family
   ansible.builtin.yum_repository:
     name: docker-ce-stable
@@ -14,5 +30,5 @@
 
 - name: Install packages on RedHat family
   ansible.builtin.dnf:
-    name: "{{ base_packages_common + base_packages_redhat_extra + (docker_packages_redhat if (docker_install | bool) else []) }}"
+    name: "{{ base_packages_common + base_packages_redhat_extra + (docker_packages_redhat if (docker_install | bool) else []) + (['code'] if (vscode_install | bool) else []) }}"
     state: present

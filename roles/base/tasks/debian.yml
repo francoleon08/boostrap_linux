@@ -1,6 +1,19 @@
 ---
+- name: Add Microsoft GPG key on Debian family
+  ansible.builtin.apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  when: vscode_install | bool
+
+- name: Add VS Code repository on Debian family
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/code stable main"
+    filename: vscode
+    state: present
+  when: vscode_install | bool
+
 - name: Install packages on Debian family
   ansible.builtin.apt:
     update_cache: true
-    name: "{{ base_packages_common + base_packages_debian_extra + (docker_packages_debian if (docker_install | bool) else []) }}"
+    name: "{{ base_packages_common + base_packages_debian_extra + (docker_packages_debian if (docker_install | bool) else []) + (['code'] if (vscode_install | bool) else []) }}"
     state: present

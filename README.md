@@ -10,6 +10,7 @@ Este repositorio te permite aprovisionar tu equipo Linux desde cero usando Ansib
 - Permite habilitar servicios.
 - Permite clonar tu repo de dotfiles.
 - Instala Docker y Docker Compose.
+- Instala VS Code con extensiones demo y configuración.
 
 ## Estructura
 
@@ -18,6 +19,7 @@ Este repositorio te permite aprovisionar tu equipo Linux desde cero usando Ansib
 - `group_vars/all.yml`: variables globales para personalizar setup.
 - `roles/base`: rol base multi-distro.
 - `roles/base/tasks/docker.yml`: tareas de Docker (servicio, grupo y Compose).
+- `roles/base/tasks/vscode.yml`: tareas de VS Code (extensiones y settings).
 - `bootstrap.sh`: instalacion rapida en equipo nuevo.
 
 ## Uso rapido
@@ -48,9 +50,10 @@ Edita `group_vars/all.yml`:
 - `docker_daemon_config`: contenido del daemon (ejemplo: `iptables`, `ip-forward`).
 - `docker_users`: usuarios que se agregan al grupo `docker`.
 - `docker_use_official_repo_redhat`: usa repo oficial Docker CE en Fedora/RHEL.
-- `docker_install`: activa instalacion de Docker y Compose.
-- `docker_users`: usuarios que se agregan al grupo `docker`.
 - `docker_compose_version`: version de fallback de Docker Compose.
+- `vscode_install`: instala VS Code cuando es `true`.
+- `vscode_extensions`: lista de extensiones a instalar.
+- `vscode_settings`: contenido del archivo `settings.json` de VS Code.
 
 ## Proximo nivel recomendado
 

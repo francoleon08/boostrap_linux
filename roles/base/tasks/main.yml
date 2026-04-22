@@ -15,6 +15,10 @@
 - name: Configure global git settings
   ansible.builtin.include_tasks: git.yml
 
+- name: Configure VS Code
+  ansible.builtin.include_tasks: vscode.yml
+  when: vscode_install | bool
+
 - name: Enable requested services
   ansible.builtin.service:
     name: "{{ item }}"

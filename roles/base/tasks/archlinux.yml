@@ -2,5 +2,5 @@
 - name: Install packages on Arch family
   community.general.pacman:
     update_cache: true
-    name: "{{ base_packages_common + base_packages_arch_extra + (docker_packages_arch if (docker_install | bool) else []) }}"
+    name: "{{ base_packages_common + base_packages_arch_extra + (docker_packages_arch if (docker_install | bool) else []) + (['code'] if (vscode_install | bool) else []) }}"
     state: present
