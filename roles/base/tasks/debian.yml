@@ -9,7 +9,9 @@
 - name: Find existing VS Code apt source files
   ansible.builtin.find:
     paths: /etc/apt/sources.list.d
-    patterns: "*.list"
+    patterns:
+      - "*.list"
+      - "*.sources"
     contains: "packages.microsoft.com/repos/code"
   register: vscode_source_files
   when: vscode_install | bool
