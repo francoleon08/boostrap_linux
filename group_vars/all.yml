@@ -90,20 +90,14 @@ gui_apps_common:
 gui_apps_debian:
   - google-chrome-stable
   - brave-browser
-  - sublime-text
-  - onlyoffice-desktopeditors
 
 gui_apps_redhat:
   - google-chrome-stable
   - brave-browser
-  - sublime-text
-  - onlyoffice-desktopeditors
 
 gui_apps_arch:
   - google-chrome
   - brave-bin
-  - sublime-text-4
-  - onlyoffice-bin
 
 postman_install: true
 postman_version: latest

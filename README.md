@@ -11,7 +11,7 @@ Este repositorio te permite aprovisionar tu equipo Linux desde cero usando Ansib
 - Permite clonar tu repo de dotfiles.
 - Instala Docker y Docker Compose.
 - Instala VS Code con extensiones demo y configuración.
-- Instala aplicaciones GUI: Chrome, Brave, Sublime Text, OnlyOffice, Thunderbird, Postman.
+- Instala aplicaciones GUI: Chrome, Brave, Thunderbird, Postman.
 
 ## Estructura
 
@@ -21,7 +21,7 @@ Este repositorio te permite aprovisionar tu equipo Linux desde cero usando Ansib
 - `roles/base`: rol base multi-distro.
 - `roles/base/tasks/docker.yml`: tareas de Docker (servicio, grupo y Compose).
 - `roles/base/tasks/vscode.yml`: tareas de VS Code (extensiones y settings).
-- `roles/gui`: rol para aplicaciones de escritorio (Chrome, Brave, Sublime, OnlyOffice, Thunderbird, Postman).
+- `roles/gui`: rol para aplicaciones de escritorio (Chrome, Brave, Thunderbird, Postman).
 - `bootstrap.sh`: instalacion rapida en equipo nuevo.
 
 ## Uso rapido
@@ -56,7 +56,7 @@ Edita `group_vars/all.yml`:
 - `vscode_install`: instala VS Code cuando es `true`.
 - `vscode_extensions`: lista de extensiones a instalar.
 - `vscode_settings`: contenido del archivo `settings.json` de VS Code.
-- `gui_install`: activa instalacion de aplicaciones GUI (Chrome, Brave, Sublime, OnlyOffice, Thunderbird).
+- `gui_install`: activa instalacion de aplicaciones GUI (Chrome, Brave, Thunderbird).
 - `postman_install`: instala Postman via snap.
 - `gui_apps_debian`, `gui_apps_redhat`, `gui_apps_arch`: apps por distro (customizable).
 
