@@ -1,0 +1,31 @@
+---
+- name: Include distro specific tasks
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
+
+- name: Configure docker
+  ansible.builtin.include_tasks: docker.yml
+  when: docker_install | bool
+
+- name: Ensure user local bin exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/bin"
+    state: directory
+    mode: "0755"
+
+- name: Configure global git settings
+  ansible.builtin.include_tasks: git.yml
+
+- name: Enable requested services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop: "{{ services_to_enable }}"
+  when: services_to_enable | length > 0
+
+- name: Clone dotfiles repository when provided
+  ansible.builtin.git:
+    repo: "{{ dotfiles_repo_url }}"
+    dest: "{{ dotfiles_repo_dest }}"
+    update: true
+  when: dotfiles_repo_url | length > 0

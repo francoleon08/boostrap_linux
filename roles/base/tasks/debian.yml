@@ -1,0 +1,6 @@
+---
+- name: Install packages on Debian family
+  ansible.builtin.apt:
+    update_cache: true
+    name: "{{ base_packages_common + base_packages_debian_extra + (docker_packages_debian if (docker_install | bool) else []) }}"
+    state: present

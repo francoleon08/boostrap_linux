@@ -1,0 +1,14 @@
+---
+- name: Read current global git config values
+  ansible.builtin.command: "git config --global --get {{ item.key }}"
+  loop: "{{ git_global_config }}"
+  register: git_current_values
+  changed_when: false
+  failed_when: false
+  become: false
+
+- name: Apply global git config values
+  ansible.builtin.command: "git config --global {{ item.item.key }} {{ item.item.value }}"
+  loop: "{{ git_current_values.results }}"
+  when: item.stdout != item.item.value
+  become: false

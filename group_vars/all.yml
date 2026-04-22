@@ -1,0 +1,55 @@
+---
+bootstrap_user: "{{ ansible_user_id }}"
+bootstrap_shell: /bin/bash
+
+base_packages_common:
+  - curl
+  - wget
+  - git
+  - unzip
+  - htop
+  - tree
+  - stow
+
+base_packages_debian_extra:
+  - build-essential
+  - ca-certificates
+
+base_packages_redhat_extra:
+  - gcc
+  - gcc-c++
+  - make
+  - ca-certificates
+
+base_packages_arch_extra:
+  - base-devel
+  - ca-certificates
+
+services_to_enable: []
+
+dotfiles_repo_url: ""
+dotfiles_repo_dest: "{{ ansible_env.HOME }}/.dotfiles"
+
+git_global_config:
+  - key: user.name
+    value: francoleon08
+  - key: user.email
+    value: francoleon284@gmail.com
+  - key: core.autocrlf
+    value: input
+
+docker_install: true
+docker_users:
+  - "{{ bootstrap_user }}"
+
+docker_packages_debian:
+  - docker.io
+
+docker_packages_redhat:
+  - docker
+
+docker_packages_arch:
+  - docker
+
+docker_compose_fallback_install: true
+docker_compose_version: v2.27.1

@@ -1,0 +1,5 @@
+---
+- name: Install packages on RedHat family
+  ansible.builtin.dnf:
+    name: "{{ base_packages_common + base_packages_redhat_extra + (docker_packages_redhat if (docker_install | bool) else []) }}"
+    state: present

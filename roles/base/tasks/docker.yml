@@ -1,0 +1,40 @@
+---
+- name: Ensure docker service is enabled and running
+  ansible.builtin.service:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Ensure docker users are in docker group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  loop: "{{ docker_users }}"
+  when: docker_users | length > 0
+
+- name: Check if Docker Compose is available
+  ansible.builtin.command: docker compose version
+  register: docker_compose_check
+  changed_when: false
+  failed_when: false
+
+- name: Ensure Docker CLI plugins directory exists
+  ansible.builtin.file:
+    path: /usr/local/lib/docker/cli-plugins
+    state: directory
+    mode: "0755"
+  when:
+    - docker_compose_fallback_install | bool
+    - docker_compose_check.rc != 0
+
+- name: Install Docker Compose plugin fallback
+  ansible.builtin.get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ compose_arch }}"
+    dest: /usr/local/lib/docker/cli-plugins/docker-compose
+    mode: "0755"
+  vars:
+    compose_arch: "{{ 'aarch64' if ansible_architecture in ['aarch64', 'arm64'] else 'x86_64' }}"
+  when:
+    - docker_compose_fallback_install | bool
+    - docker_compose_check.rc != 0
