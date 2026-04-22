@@ -28,11 +28,15 @@
   loop: "{{ docker_users }}"
   when: docker_users | length > 0
 
-- name: Check if Docker Compose is available
-  ansible.builtin.command: docker compose version
-  register: docker_compose_check
-  changed_when: false
-  failed_when: false
+- name: Check Docker Compose plugin locations
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop: "{{ docker_compose_plugin_paths }}"
+  register: docker_compose_plugins
+
+- name: Determine if Docker Compose plugin is installed
+  ansible.builtin.set_fact:
+    docker_compose_installed: "{{ docker_compose_plugins.results | selectattr('stat.exists') | list | length > 0 }}"
 
 - name: Ensure Docker CLI plugins directory exists
   ansible.builtin.file:
@@ -41,7 +45,7 @@
     mode: "0755"
   when:
     - docker_compose_fallback_install | bool
-    - docker_compose_check.rc != 0
+    - not docker_compose_installed | bool
 
 - name: Install Docker Compose plugin fallback
   ansible.builtin.get_url:
@@ -52,4 +56,4 @@
     compose_arch: "{{ 'aarch64' if ansible_architecture in ['aarch64', 'arm64'] else 'x86_64' }}"
   when:
     - docker_compose_fallback_install | bool
-    - docker_compose_check.rc != 0
+    - not docker_compose_installed | bool
